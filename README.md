@@ -8,7 +8,7 @@ David Numa
 
 ## 🤖 SauceDemo.com Automation Framework (100% Prompt-Driven)
 
-This repository houses a functional, end-to-end automation framework for the [SauceDemo e-commerce website](https://www.google.com/search?q=https://www.saucedemo.com/), created with a singular, groundbreaking constraint: **absolutely no custom code**. The entire framework, including test cases, page object model (POM) structure, and execution logic, is defined and executed solely through a series of **prompts** leveraged by **Playwright MCP Agents** (Microsoft Cognitive Process Agents).
+This repository houses a functional, end-to-end automation framework for the [SauceDemo e-commerce website](https://www.saucedemo.com/), created with a singular, groundbreaking constraint: **absolutely no custom code**. The entire framework, including test cases, page object model (POM) structure, and execution logic, is defined and executed solely through a series of **prompts** leveraged by **Playwright MCP Agents** (Microsoft Cognitive Process Agents).
 
 This project serves as a proof-of-concept demonstrating the immense potential of **AI-driven testing** and **prompt-engineering** to define and maintain complex automation suites.
 
