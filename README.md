@@ -1,8 +1,13 @@
 ## NOTES FROM THE AUTHOR
 
-Since all the code in this project was created using 100% prompts, this Readme was also created using prompts. 
+My key takeaway from this exercise: prompt-generated code is impressively efficient for simple sites like SauceDemo.com. But when it comes to complex E2E projects, especially those involving API interactions, third-party integrations, a robust and maintainable POM, deep domain knowledge, and numerous variables, human expertise remains indispensable.
+
+Agents are here to stay, helping us to build better software. But an LLM won’t replace us; it will only replace those who never learned how to use one.
+
 
 David Numa
+
+PS: since all the code in this project was generated entirely from prompts, this Readme was also generated from prompts :P 
 
 -----
 
