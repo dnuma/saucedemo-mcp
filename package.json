@@ -1,0 +1,23 @@
+{
+  "name": "saucedemo-mcp",
+  "version": "1.0.0",
+  "description": "My key takeaway from this exercise: prompt-generated code is impressively efficient for simple sites like SauceDemo.com. But when it comes to complex E2E projects, especially those involving API interactions, third-party integrations, a robust and maintainable POM, deep domain knowledge, and numerous variables, human expertise remains indispensable.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnuma/saucedemo-mcp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dnuma/saucedemo-mcp/issues"
+  },
+  "homepage": "https://github.com/dnuma/saucedemo-mcp#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.1"
+  }
+}

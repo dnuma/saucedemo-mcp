@@ -13,7 +13,7 @@ PS: since all the code in this project was generated entirely from prompts, this
 
 ## 🤖 SauceDemo.com Automation Framework (100% Prompt-Driven)
 
-This repository houses a functional, end-to-end automation framework for the [SauceDemo e-commerce website](https://www.saucedemo.com/), created with a singular, groundbreaking constraint: **absolutely no custom code**. The entire framework, including test cases, page object model (POM) structure, and execution logic, is defined and executed solely through a series of **prompts** leveraged by **Playwright MCP Agents** (Microsoft Cognitive Process Agents).
+This repository houses a functional, end-to-end automation framework for the [SauceDemo e-commerce website](https://www.saucedemo.com/), created with a singular, groundbreaking constraint: **absolutely no custom code**. The entire framework, including test cases, page object model (POM) structure, and execution logic, is defined and executed solely through a series of **prompts** leveraged by **Playwright Agents**.
 
 This project serves as a proof-of-concept demonstrating the immense potential of **AI-driven testing** and **prompt-engineering** to define and maintain complex automation suites.
 
@@ -33,69 +33,92 @@ This project serves as a proof-of-concept demonstrating the immense potential of
 
 To run and reproduce this framework, you will need the following:
 
-1.  **Playwright Test Runner:** Installed globally or locally (via npm/yarn).
-2.  **Playwright MCP Agent Environment:** Access to and configuration of the specific Playwright Agent/AI tooling being used (e.g., specific CLI, API keys, or agent runtime). *Note: The exact configuration steps will depend on the final Agent implementation details.*
-3.  **Node.js & npm/yarn:** For managing dependencies and running Playwright.
+1.  **Node.js & npm:** For managing dependencies and running Playwright.
+2.  **Playwright Test Runner:** Install via npm with the commands below.
+3.  **VS Code:** The latest version of the IDE.
+4.  **Playwright MCP Agent:** For generating and managing tests via prompts.
 
-<!-- end list -->
+### Installation
 
 ```bash
-# Example installation (may vary based on Agent tooling)
-npm install playwright @playwright/test
-# Configure your specific Agent environment variables (e.g., API keys)
+npm install
+npm install @playwright/test
+npx playwright install
 ```
 
 -----
 
 ## 🚀 Getting Started
 
-The core of this repository is the collection of prompt files that the Agent consumes.
+### 1\. Project Structure
 
-### 1\. The Prompt Files
-
-The framework is broken down into structured prompt files, mimicking a traditional automation structure:
+The framework is built using prompts to generate test cases and page objects organized as follows:
 
 | File/Folder | Purpose | Description |
 | :--- | :--- | :--- |
-| `agents/` | **Core Prompts** | Stores the prompts that define reusable components (like a POM). E.g., a prompt defining how to "Login with standard user." |
-| `tests/login.prompt` | **Test Case 1** | A sequence of prompts defining the full Login test scenario (positive/negative). |
-| `tests/checkout.prompt` | **Test Case 2** | A sequence of prompts defining the full product selection and checkout flow. |
-| `agent.config.json` | **Agent Configuration** | Configuration for the Agent environment (e.g., target URL, user profiles, AI model settings). |
+| `tests/auth/` | **Authentication Tests** | Login tests for all user types (standard_user, locked_out_user, problem_user, etc.). |
+| `tests/ecommerce/` | **E-Commerce Tests** | Product selection, cart management, and checkout workflows. |
+| `tests/pages/` | **Page Object Model** | Reusable page components (LoginPage, InventoryPage, CartPage, CheckoutPage, etc.). |
+| `specs/` | **Test Plans** | Human-readable test specifications and edge case documentation. |
+| `Prompts.md` | **Prompt Documentation** | Record of all prompts used to generate the framework. |
+| `playwright.config.ts` | **Playwright Configuration** | Test configuration with baseURL and browser settings. |
 
-### 2\. Execution
+### 2\. Running Tests
 
-Execution involves feeding the test prompt files into the Agent's runtime environment.
-
-1.  **Ensure all prerequisites are met.**
-2.  **Run the Agent against the desired test prompt.**
-
-<!-- end list -->
+To execute the tests:
 
 ```bash
-# Hypothetical command structure to execute the login test
-# (This command will vary based on the official Playwright MCP Agent CLI)
-npx playwright-mcp-agent run tests/login.prompt
+# Run all tests
+npx playwright test
+
+# Run tests in a specific directory
+npx playwright test tests/auth
+
+# Run tests in headed mode (watch browser execution)
+npx playwright test --headed
+
+# Run a specific test file
+npx playwright test tests/auth/auth.spec.ts
+
+# View HTML test report
+npx playwright show-report
 ```
 
 -----
 
-## 💡 Prompt Engineering Examples
+## 💡 Test Coverage
 
-The power of this framework lies in the clarity and structure of the prompts.
+This framework covers the following test scenarios:
 
-### 📝 Example: Defining a "Page Object" Prompt
+### Authentication Tests (`specs/AUTH_TEST_PLAN.md`)
+Tests for all SauceDemo user types:
+- **standard_user** - Valid login with full app access
+- **locked_out_user** - Login attempt with locked account
+- **problem_user** - Login with known issues (image/cart problems)
+- **performance_glitch_user** - Login with performance issues
+- **error_user** - Login with error behavior
+- **visual_user** - Login with visual regression issues
 
-  * **Goal:** Tell the Agent how to interact with the Login Page.
-  * **Prompt (Simplified):**
+Each test validates successful login with unique assertions per user type.
 
-> **"Define a component named `LoginPage`. This component has two methods: `enterCredentials(username, password)` and `clickLogin()`. For `enterCredentials`, type the `username` into the input with the data-test ID `user-name` and the `password` into the input with the data-test ID `password`. For `clickLogin`, click the button with the data-test ID `login-button`."**
+### E-Commerce Tests (`tests/ecommerce/`)
+Core e-commerce workflows:
+1. **Single Product Purchase** - Add 1 product to cart and complete checkout
+2. **Multi-Product Purchase** - Mix of listing and detail view product selection with checkout
+3. **Cart Management** - Random product selection (2-5 items) with full cart deletion validation
 
-### 📝 Example: Executing a Test Case Prompt
+### Edge Cases (`specs/ECOMMERCE_EDGE_CASES_TEST_PLAN.md`)
+Advanced test scenarios for cart and checkout edge cases.
 
-  * **Goal:** Run a simple valid login.
-  * **Prompt (Simplified):**
+## 📝 Prompt Engineering Examples
 
-> **"Start a new test named `Valid Login Test`. On the `LoginPage`, call `enterCredentials` using 'standard\_user' and 'secret\_sauce'. Then call `clickLogin()`. Assert that the current page URL ends with `/inventory.html` and the element with class `title` has the text 'Products'."**
+All tests were generated using structured prompts. Key prompt patterns include:
+
+### Authentication Prompt
+> "Generate a test plan using consistent POM for all accepted usernames (standard_user, locked_out_user, problem_user, performance_glitch_user, error_user, visual_user) with password 'secret_sauce'. Each test must validate successful and unique login."
+
+### E-Commerce Prompt
+> "Generate tests using consistent POM and login with standard_user for: (1) Add 1 product to cart and finalize transaction, (2) Add products from listing and detail views with random selection, (3) Add random number of products (2-5) then delete all and validate empty cart."
 
 -----
 
