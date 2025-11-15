@@ -4,11 +4,13 @@ The following is the record of all prompts sent to the agent to create the test 
 
 No prompt was polished or repeated, single prompt execution every time.
 
+Model used: ```Claude Haiku 4.5```
+
 ----
 
 ### 1\. Auth prompt
 
-**New chat was created for a clean prompt**
+**New chat was created for a clean context**
 
 ```
 Using the baseURL (do not hardcode the url), generate a test plan using consistent POM for all accepted usernames:
@@ -30,7 +32,7 @@ Output: ```specs/AUTH_TEST_PLAN.MD```
 
 ### 2\. Ecommerce prompt using fixed test cases 
 
-**New chat was created for a clean prompt**
+**New chat was created for a clean context**
 
 ```
 Using the baseURL (do not hardcode the url), generate the following tests using consistent POM and login in with standard_user:
@@ -45,7 +47,7 @@ Output: Since I didn't asked for a test plan, no test plan was created
 
 ### 3\. Ecommerce prompt for edge cases
 
-**The following prompt was pasted in the same chat for continuity**
+**This prompt was inserted into the same chat session to ensure consistent context.**
 
 ```
 Now I need you to create a test plan for 4 edge cases, using the same user, and continuing with POM structure.
@@ -57,7 +59,7 @@ Output: ```specs/ECOMMERCE_EDGE_CASES_TEST_PLAN.MD```
 
 ### 4\. Visual assertions  using fixed test cases
 
-**New chat was created for a clean prompt**
+**New chat was created for a clean context**
 
 ```
 Using the baseURL (do not hardcode the url),  generate the following tests using consistent POM and login in with standard_user
@@ -73,7 +75,7 @@ Output: Since I didn't asked for a test plan, no test plan was created
 
 ### 5\. Visual assertions for the visual_user
 
-**The following prompt was pasted in the same chat for continuity**
+**This prompt was inserted into the same chat session to ensure consistent context.**
 
 ```
 Now I need you to create a test plan using the visual_user which will fail some test cases because that's how it was created. 
@@ -85,7 +87,7 @@ Output: ```specs/VISUAL_USER_TEST_PLAN.MD```
 
 ### 6\. Healer
 
-**If you have reached to this point, ran all test cases and have no errors, congrats! Your LLM is smarter than mine. I have to run the healer because my tests are not working**
+If you have reached to this point, ran all test cases and have no errors, congrats! Your LLM is smarter than mine. I have to run the healer because my tests are not working
 
 ```
 Run and fix the tests. If needed, increase the threshold of the screenshot to 5%
