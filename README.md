@@ -2,7 +2,7 @@
 
 It took me about 3 hours to think through and craft the prompts, wait for Playwright to generate the test plans, create the test cases, execute them, and then let the healer clean up the mess it made. Not bad at all—doing it manually would’ve taken me at least 6 hours of deep focus (though I would’ve followed a different, more concise, maintainable, and consistent approach). 
 
-My key takeaway from this exercise: prompt-generated code is impressively efficient for lightweight sites like SauceDemo.com. But when it comes to complex end-to-end projects—especially those involving API interactions, third-party integrations, a robust and maintainable Page Object Model, deep domain knowledge, and a multitude of variables—human expertise remains irreplaceable. This exercise was created in a straightforward 5-page website project with 100% front-end coverage, and no complex scenarios.
+My key takeaway from this exercise: prompt-generated code is impressively efficient for lightweight sites like SauceDemo.com. But when it comes to complex end-to-end projects—especially those involving API interactions, third-party integrations, a robust and maintainable Page Object Model, deep domain knowledge, and a multitude of variables—human expertise remains irreplaceable. This exercise was created in a straightforward 5-page website project, 100% front-end, and with no complex scenarios.
 
 Agents are here to stay, helping us build better software. But an LLM won’t replace us—it’ll only replace those who never learned how to use one.
 
