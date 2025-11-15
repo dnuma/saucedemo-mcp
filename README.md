@@ -1,6 +1,6 @@
-## NOTES FROM THE AUTHOR
+# NOTES FROM THE AUTHOR
 
-It took me about 3 hours to think through and craft the prompts, wait for Playwright to generate the test plans, create the test cases, execute them, and then let the healer clean up the mess it made. Not bad at all—doing it manually would’ve taken me at least 5 hours. Granted, this was a simple 5-page website with 100% front-end coverage and no complex scenarios.
+It took me about 3 hours to think through and craft the prompts, wait for Playwright to generate the test plans, create the test cases, execute them, and then let the healer clean up the mess it made. Not bad at all—doing it manually would’ve taken me at least 6 hours of deep focus (though I would’ve followed a different, more concise, maintainable, and consistent approach). Of course, this was a straightforward 5-page website with full front-end coverage and no complex scenarios.
 
 My key takeaway from this exercise: prompt-generated code is impressively efficient for lightweight sites like SauceDemo.com. But when it comes to complex end-to-end projects—especially those involving API interactions, third-party integrations, a robust and maintainable Page Object Model, deep domain knowledge, and a multitude of variables—human expertise remains irreplaceable.
 
@@ -37,7 +37,7 @@ To run and reproduce this framework, you will need the following:
 1.  **Node.js & npm:** For managing dependencies and running Playwright.
 2.  **Playwright Test Runner:** Install via npm with the commands below.
 3.  **VS Code:** The latest version of the IDE.
-4.  **Playwright MCP Agent:** For generating and managing tests via prompts.
+4.  **Playwright MCP Agent:** For generating and managing tests via prompts. Read more about [Playwright Agents](https://playwright.dev/docs/test-agents)
 
 ### Installation
 
@@ -51,20 +51,23 @@ npx playwright install
 
 ## 🚀 Getting Started
 
-### 1\. Project Structure
+### 1. Project Structure
 
 The framework is built using prompts to generate test cases and page objects organized as follows:
 
 | File/Folder | Purpose | Description |
 | :--- | :--- | :--- |
-| `tests/auth/` | **Authentication Tests** | Login tests for all user types (standard_user, locked_out_user, problem_user, etc.). |
-| `tests/ecommerce/` | **E-Commerce Tests** | Product selection, cart management, and checkout workflows. |
-| `tests/pages/` | **Page Object Model** | Reusable page components (LoginPage, InventoryPage, CartPage, CheckoutPage, etc.). |
-| `specs/` | **Test Plans** | Human-readable test specifications and edge case documentation. |
+| `tests/auth/auth.spec.ts` | **Authentication Tests** | 7 test cases covering all user types and parametrized login validation. |
+| `tests/ecommerce/ecommerce.spec.ts` | **E-Commerce Tests** | 3 test cases for product selection, cart management, and checkout flows. |
+| `tests/ecommerce/ecommerce-edge-cases.spec.ts` | **Edge Case Tests** | 4 test cases for empty cart checkout, cart persistence, form validation, and item removal. |
+| `tests/visual/snapshots.spec.ts` | **Visual Regression (Standard)** | 9 visual snapshot tests using standard_user account. |
+| `tests/visual/visual-user-snapshots.spec.ts` | **Visual Regression (Visual User)** | 9 visual snapshot tests using visual_user account (expected failures). |
+| `tests/pages/` | **Page Object Model** | 6 reusable page components: LoginPage, DashboardPage, InventoryPage, ProductDetailPage, CartPage, CheckoutPage. |
+| `specs/` | **Test Plans** | Human-readable test specifications (AUTH_TEST_PLAN.md, ECOMMERCE_EDGE_CASES_TEST_PLAN.md, VISUAL_USER_TEST_PLAN.md). |
 | `Prompts.md` | **Prompt Documentation** | Record of all prompts used to generate the framework. |
 | `playwright.config.ts` | **Playwright Configuration** | Test configuration with baseURL and browser settings. |
 
-### 2\. Running Tests
+### 2. Running Tests
 
 To execute the tests:
 
@@ -72,14 +75,25 @@ To execute the tests:
 # Run all tests
 npx playwright test
 
-# Run tests in a specific directory
+# Run authentication tests only
 npx playwright test tests/auth
+
+# Run e-commerce tests only
+npx playwright test tests/ecommerce
+
+# Run visual tests only
+npx playwright test tests/visual
+
+# Run a specific test file
+npx playwright test tests/auth/auth.spec.ts
+npx playwright test tests/ecommerce/ecommerce.spec.ts
+npx playwright test tests/ecommerce/ecommerce-edge-cases.spec.ts
 
 # Run tests in headed mode (watch browser execution)
 npx playwright test --headed
 
-# Run a specific test file
-npx playwright test tests/auth/auth.spec.ts
+# Run tests in debug mode (step through test execution)
+npx playwright test --debug
 
 # View HTML test report
 npx playwright show-report
@@ -89,27 +103,37 @@ npx playwright show-report
 
 ## 💡 Test Coverage
 
-This framework covers the following test scenarios:
+This framework covers 20+ automated tests across multiple test suites:
 
-### Authentication Tests (`specs/AUTH_TEST_PLAN.md`)
-Tests for all SauceDemo user types:
-- **standard_user** - Valid login with full app access
-- **locked_out_user** - Login attempt with locked account
-- **problem_user** - Login with known issues (image/cart problems)
-- **performance_glitch_user** - Login with performance issues
-- **error_user** - Login with error behavior
-- **visual_user** - Login with visual regression issues
+### Authentication Tests (`tests/auth/auth.spec.ts`)
+Comprehensive login tests for all SauceDemo user types:
+- **Standard User** - Valid login with full app access
+- **Locked Out User** - Login attempt with locked account
+- **Problem User** - Login with known issues (image/cart problems)
+- **Performance Glitch User** - Login with performance issues
+- **Error User** - Login with error behavior
+- **Visual User** - Login with visual regression issues
+- **Parametrized Test** - Validates all users in a single parameterized test
 
-Each test validates successful login with unique assertions per user type.
-
-### E-Commerce Tests (`tests/ecommerce/`)
-Core e-commerce workflows:
+### E-Commerce Tests (`tests/ecommerce/ecommerce.spec.ts`)
+Core e-commerce workflows with standard_user:
 1. **Single Product Purchase** - Add 1 product to cart and complete checkout
-2. **Multi-Product Purchase** - Mix of listing and detail view product selection with checkout
-3. **Cart Management** - Random product selection (2-5 items) with full cart deletion validation
+2. **Multi-Product Purchase** - Mix of listing (1 product) and detail view (2 random products) selection with checkout
+3. **Cart Management** - Add random products (2-5 items), delete all items, and validate empty cart
 
-### Edge Cases (`specs/ECOMMERCE_EDGE_CASES_TEST_PLAN.md`)
-Advanced test scenarios for cart and checkout edge cases.
+### Edge Cases (`tests/ecommerce/ecommerce-edge-cases.spec.ts`)
+Advanced test scenarios for cart and checkout edge cases:
+1. **Empty Cart Checkout** - Proceed to checkout with empty cart
+2. **Cart Persistence** - Add product, navigate away, return to cart and verify persistence
+3. **Checkout Form Validation** - Test all field validation scenarios (first name, last name, postal code)
+4. **Item Removal During Checkout** - Remove all items one by one during checkout flow
+
+### Visual Regression Tests (`tests/visual/`)
+**Standard User Visual Tests** (`snapshots.spec.ts`):
+- 9 visual regression tests covering login, inventory listing, 6 product detail pages, and cart page
+
+**Visual User Visual Tests** (`visual-user-snapshots.spec.ts`):
+- 9 visual regression tests for the visual_user account (expected to show visual differences/failures)
 
 ## 📝 Prompt Engineering Examples
 
